@@ -7,13 +7,13 @@ function Users() {
     const [error, setError] = useState(null)
 
     useEffect(()=>{
-        axios.get('http://localhost:3001')
+        axios.get(`${import.meta.env.VITE_API_URL}`)
         .then(result => setUsers(result.data))
         .catch(err => setError(err.message || 'An error occurred'))
     }, [])
 
     const handleDelete = (id) => {
-        axios.delete('http://localhost:3001/deleteUser/'+id)
+        axios.delete(`${import.meta.env.VITE_API_URL}/deleteUser/${id}`)
         .then(res => {
             console.log(res)
             setUsers(users.filter(u => u._id !== id))
