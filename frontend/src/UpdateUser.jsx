@@ -7,6 +7,7 @@ function UpdateUser() {
     const [name, setName] = useState()
     const [email, setEmail] = useState()
     const [age, setAge] = useState()
+    const [error, setError] = useState(null)
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -17,7 +18,7 @@ function UpdateUser() {
             setEmail(result.data.email)
             setAge(result.data.age)
         })
-        .catch(err => console.log(err))
+        .catch(err => setError(err.message || 'Failed to fetch user data'))
     }, [])
 
     const Update = (e) => {
@@ -27,7 +28,7 @@ function UpdateUser() {
             console.log(result)
             navigate('/')
         })
-        .catch(err => console.log(err))
+        .catch(err => setError(err.message || 'Failed to update user'))
     }
 
   return (
@@ -35,6 +36,7 @@ function UpdateUser() {
         <div className='w-50 bg-white rounded p-3'>
             <form onSubmit={Update}>
                 <h2>Update User</h2>
+                {error && <div className="alert alert-danger">{error}</div>}
                 <div className='mb-2'>
                     <label htmlFor="">Name</label>
                     <input type="text" placeholder="Enter Name" className='form-control'

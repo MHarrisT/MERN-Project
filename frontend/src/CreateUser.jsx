@@ -6,6 +6,7 @@ function CreateUser() {
     const [name, setName] = useState()
     const [email, setEmail] = useState()
     const [age, setAge] = useState()
+    const [error, setError] = useState(null)
     const navigate = useNavigate()
 
     const Submit = (e) => {
@@ -15,7 +16,7 @@ function CreateUser() {
             console.log(result)
             navigate('/')
         })
-        .catch(err => console.log(err))
+        .catch(err => setError(err.message || 'Failed to create user'))
     }
 
   return (
@@ -23,6 +24,7 @@ function CreateUser() {
         <div className='w-50 bg-white rounded p-3'>
             <form onSubmit={Submit}>
                 <h2>Add User</h2>
+                {error && <div className="alert alert-danger">{error}</div>}
                 <div className='mb-2'>
                     <label htmlFor="">Name</label>
                     <input type="text" placeholder="Enter Name" className='form-control'
