@@ -8,7 +8,8 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-mongoose.connect("mongodb://127.0.0.1:27017/crud")
+const mongoURI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/crud"
+mongoose.connect(mongoURI)
 
 app.get('/', (req, res) => {
     UserModel.find({})
@@ -48,3 +49,4 @@ app.post("/createUser", (req, res) => {
 })
 
 app.listen(PORT, () => console.log("Server is Running on PORT " + PORT))
+module.exports = app;
