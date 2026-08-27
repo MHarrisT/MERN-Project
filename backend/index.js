@@ -13,14 +13,14 @@ mongoose.connect("mongodb://127.0.0.1:27017/crud")
 app.get('/', (req, res) => {
     UserModel.find({})
     .then(users => res.json(users))
-    .catch(err => res.json(err))
+    .catch(err => res.status(500).json({ error: err.message }))
 })
 
 app.get('/getUser/:id', (req, res) => {
     const id = req.params.id
     UserModel.findById({_id:id})
     .then(users => res.json(users))
-    .catch(err => res.json(err))
+    .catch(err => res.status(500).json({ error: err.message }))
 })
 
 app.put('/updateUser/:id', (req, res) => {
@@ -31,20 +31,20 @@ app.put('/updateUser/:id', (req, res) => {
         age: req.body.age
     })
     .then(users => res.json(users))
-    .catch(err => res.json(err))    
+    .catch(err => res.status(500).json({ error: err.message }))    
 })
 
 app.delete('/deleteUser/:id', (req, res) => {
     const id = req.params.id
     UserModel.findByIdAndDelete({_id: id})
-    .then(res => res.json(users))
-    .catch(err => res.json(err))
+    .then(response => res.json(response))
+    .catch(err => res.status(500).json({ error: err.message }))
 })
 
 app.post("/createUser", (req, res) => {
     UserModel.create(req.body)
     .then(users => res.json(users))
-    .catch(err => res.json(err))
+    .catch(err => res.status(500).json({ error: err.message }))
 })
 
 app.listen(PORT, () => console.log("Server is Running on PORT " + PORT))
